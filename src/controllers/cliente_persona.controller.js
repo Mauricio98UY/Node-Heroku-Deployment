@@ -18,16 +18,14 @@ cliente_personaCtrl.buscarCliente_Persona = async (req, res) => {
 cliente_personaCtrl.altaCliente_Persona = async (req, res) => {
     try {
         const data = req.body;
-        const resp = await Cliente_PersonaModel.findOne({where: {cedula: req.body.cedula}});
+        const resp = await Cliente_PersonaModel.findOne({where: {cedula: data.cedula}});
         if (resp) {
             return generalMessage(res, 404, false, "", "La persona ya existe.");
         }
         const cliente = await Cliente.create({celular: data.celular, email: data.email, novedades: data.novedades});
-        console.log(cliente);
-        await Cliente_PersonaModel.create(data);
+        await Cliente_PersonaModel.create({cedula: data.cedula, nombre: data.nombre, apellido: data.apellido, id_cliente: cliente.id});
         generalMessage(res, 201, true, resp, "Persona registrada.");
     } catch (error) {
-        console.log(error.message);
         generalMessage(res, 500, false, "", error.message);
     }
 };

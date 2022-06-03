@@ -1,5 +1,5 @@
 import Cliente_EmpresaModel from "../models/cliente_empresa.model.js";
-//const Cliente_EmpresaModel = import('Cliente_Empresa', require('../models/cliente_empresa.model.js'));
+import Cliente from "../models/clientes.model.js";
 //import { required } from "joi";
 import message from "../utils/messages.js";
 const { generalMessage } = message;
@@ -17,13 +17,13 @@ cliente_empresaCtrl.buscarCliente_Empresa = async (req, res) => {
 
 cliente_empresaCtrl.altaCliente_Empresa = async (req, res) => {
     try {
-        //const data = req.body;
-        const { rut } = req.params;
-        const resp = await Cliente_EmpresaModel.findOne({where: {rut: rut}});
+        const data = req.body;
+        const resp = await Cliente_EmpresaModel.findOne({where: {rut: data.rut}});
         if (resp) {
             return generalMessage(res, 404, false, "", "La Empresa ya existe.");
         }
-        await Cliente_EmpresaModel.create(data);
+        const cliente = await Cliente.create({celular: data.celular, email: data.email, novedades: data.novedades});
+        await Cliente_EmpresaModel.create({rut: data.rut, razon_social: data.razon_social, nombre_comercial: data.nombre_comercial, id_cliente: cliente.id});
         generalMessage(res, 201, true, resp, "Empresa registrada.");
     } catch (error) {
         generalMessage(res, 500, false, "", error.message);

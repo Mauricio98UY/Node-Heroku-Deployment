@@ -9,8 +9,9 @@ const sequelize = new Sequelize(process.env.DB_NAME__, process.env.USER__, proce
 const Cliente_PersonaModel = sequelize.define('Cliente_Persona', {
     id: {
         type: DataTypes.NUMBER,
-        allowNull: true,
+        //allowNull: true,
         primaryKey: true,
+        autoIncrement:true,
     },
     cedula: {
         type: DataTypes.STRING,

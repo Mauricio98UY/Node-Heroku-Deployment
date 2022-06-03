@@ -8,8 +8,9 @@ const sequelize = new Sequelize(process.env.DB_NAME__, process.env.USER__, proce
 const ClientesModel = sequelize.define('Clientes', {
     id: {
         type: DataTypes.NUMBER,
-        allowNull: true,
+        //allowNull: true,
         primaryKey: true,
+        autoIncrement:true,
     },
     celular: {
         type: DataTypes.STRING,
